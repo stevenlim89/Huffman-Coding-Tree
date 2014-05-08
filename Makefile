@@ -4,21 +4,23 @@ CC=g++
 CXXFLAGS=-std=c++11 -g
 LDFLAGS=-g
 
-all: compress 
+all: compress uncompress
 
-compress: compress.o 
+compress: HCNode.o HCTree.o 
 
+uncompress: HCNode.o HCTree.o
 
-compress.o: compress.cpp
+HCTree.o: HCNode.hpp HCTree.hpp HCTree.cpp 
 
-
-HCTree.o: HCNode.hpp HCTree.hpp
-
-HCNode.o: HCNode.hpp
+HCNode.o: HCNode.hpp HCNode.cpp
 
 BitOutputStream.o: BitOutputStream.hpp
 
 BitInputStream.o: BitInputStream.hpp
+
+new:
+	make clean
+	make
 
 clean:
 	rm -f compress uncompress *.o core*
