@@ -14,50 +14,63 @@ using namespace std;
 
 int main( int argc, const char *argv[])
 {
+	ifstream ifs;
 	ofstream outputFile;
 	vector<int> list_freq;	
+	int asciiArray[MAX];
+
+	ifs.open(argv[1], ios::binary);
+	outputFile.open(argv[2]);
 
 
+	//check if there are more than 3 arguments
 	if( argc != 3 ){
 		printf("Please put in correct input");
 		exit(0); 
 	}
 
-	ifstream ifs;
-	ifs.open(argv[1], ios::binary);
-	
-	int asciiArray[MAX];
-	
+	//set the frequency of all the arrays to zero
 	for(int i =0 ; i < MAX; i++){
 		asciiArray[i]=0;
 	}
 	
+	unsigned char letter1 = ifs.get();
+
+	//sets the frequency of each letter
 	while(ifs.good()){
-		unsigned char letter = ifs.get();
-	
 		for(int index = 0; index < MAX; index++){
-			if(index == letter){
+			if(index == letter1){
 				asciiArray[index]++;
+				cout<<"nooo"<<letter1<<endl;
 			}
 		}
+		letter1 = ifs.get();
+
 	}
 	
+	//pushes all the frequency into a vector
 	for( int k =0 ; k < MAX; k++){
-		//if(asciiArray[k]!=0)
-			list_freq.push_back(asciiArray[k]);
-			//list_ascii.push_back(k);
-		
+		list_freq.push_back(asciiArray[k]);
+		outputFile<<"!"<<asciiArray[k];		
 	}
-
+	
+	//resets the pointer to the beginning of the file
+	ifs.clear();
+	ifs.seekg(0, ios::beg);
+	
+	//creates a tree and build it
 	HCTree * tree = new HCTree();
 	tree->build(list_freq);
 
-	
-	outputFile.open(argv[2]);
-	/*for( int f =0 ; f < list_freq.size(); f++){
-		//outputFile<<list_ascii[f];
-		
-	}*/
+	unsigned char letter = ifs.get();
+
+	//encodes each letter in the file
+	while(ifs.good()){
+		tree->encode(letter, outputFile);
+		cout<<"reached"<<endl;
+		letter = ifs.get();
+
+	}
 
 
 	ifs.close();

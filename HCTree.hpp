@@ -76,7 +76,7 @@ public:
      *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT BE USED
      *  IN THE FINAL SUBMISSION.
      */
-   // int decode(ifstream& in) const;
+    int decode(ifstream& in) const;
 
 };
 
