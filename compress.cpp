@@ -41,19 +41,19 @@ int main( int argc, const char *argv[])
 		for(int index = 0; index < MAX; index++){
 			if(index == letter1){
 				asciiArray[index]++;
-				cout<<"nooo"<<letter1<<endl;
 			}
 		}
 		letter1 = ifs.get();
 
 	}
-	
+
 	//pushes all the frequency into a vector
 	for( int k =0 ; k < MAX; k++){
 		list_freq.push_back(asciiArray[k]);
-		outputFile<<"!"<<asciiArray[k];		
+		outputFile<<" "<<asciiArray[k];		
 	}
-	
+
+        outputFile<<"!";	
 	//resets the pointer to the beginning of the file
 	ifs.clear();
 	ifs.seekg(0, ios::beg);
@@ -67,7 +67,7 @@ int main( int argc, const char *argv[])
 	//encodes each letter in the file
 	while(ifs.good()){
 		tree->encode(letter, outputFile);
-		cout<<"reached"<<endl;
+		//cout<<"reached"<<endl;
 		letter = ifs.get();
 
 	}

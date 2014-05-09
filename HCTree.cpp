@@ -27,12 +27,10 @@ void HCTree::build(const vector<int>& freqs)
 
 	//creates the tree
 	while(node_pq.size() != 0){
-		cout<<"asfd"<<endl;
 		if(node_pq.size() == 1){
 			HCTree::root = node_pq.top();
 			HCTree::root->p = 0;
 			node_pq.pop();
-			cout<<"root is"<<HCTree::root<<endl;
 			return;
 		}
 		else{	
@@ -57,7 +55,6 @@ void HCTree::encode(byte symbol, ofstream& out) const
 {
 
 	vector<int> binary_num;
-	cout<<binary_num.size();
 	HCNode * temp_node = HCTree::leaves[symbol];
 	if(temp_node == nullptr)
 		return;
@@ -69,11 +66,9 @@ void HCTree::encode(byte symbol, ofstream& out) const
 		while(temp_node->p != 0){
 			if(temp_node == temp_node->p->c0){
 				binary_num.push_back(0);
-				cout<<"node0"<<temp_node<<endl;
 			}
 			if(temp_node == temp_node->p->c1){
 				binary_num.push_back(1);
-				cout<<"one1"<<temp_node<<endl;
 			}
 	
 			temp_node = temp_node->p;
@@ -82,19 +77,40 @@ void HCTree::encode(byte symbol, ofstream& out) const
 	}
 
 
-
-	cout<<binary_num.size();
-	out<<'\n';
+	//cout<<binary_num.size();
 	while(binary_num.size() !=0){
 		out<<binary_num.back();
 		binary_num.pop_back();
 	}
-	out<<'\n';
 }
 
 
 int HCTree::decode(ifstream& in) const
 {
+	vector<int> freqV; 
 
+	unsigned char c = in.get(); 
+	//cout<<"first c:"<<c<<endl;
+    
+    	HCNode *tempNode = HCTree::root; 
+
+    	while(tempNode->c0 != 0 && tempNode->c1 != 0){
+       		if(c == '0'){
+          		tempNode = tempNode->c0;
+			//cout<<"0";
+       		}
+
+        	if(c == '1'){
+        		tempNode = tempNode->c1;
+			//cout<<"1";
+		} 
+       	
+		c = in.get();
+		//cout<<"second c:"<<c<<endl;
+    	} 
+	//cout<<'\n';
+	in.putback(c);
+
+    	return tempNode->symbol; 
 }
 
