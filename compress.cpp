@@ -18,6 +18,7 @@ int main( int argc, const char *argv[])
 	ofstream outputFile;
 	vector<int> list_freq;	
 	int asciiArray[MAX];
+	unsigned int decode = 0;
 
 	ifs.open(argv[1], ios::binary);
 	outputFile.open(argv[2]);
@@ -41,6 +42,7 @@ int main( int argc, const char *argv[])
 		for(int index = 0; index < MAX; index++){
 			if(index == letter1){
 				asciiArray[index]++;
+				decode++;
 			}
 		}
 		letter1 = ifs.get();
@@ -53,7 +55,9 @@ int main( int argc, const char *argv[])
 		outputFile<<" "<<asciiArray[k];		
 	}
 
-        outputFile<<"!";	
+        outputFile<<"!";
+	outputFile<<decode;
+	outputFile<<"@";	
 	//resets the pointer to the beginning of the file
 	ifs.clear();
 	ifs.seekg(0, ios::beg);

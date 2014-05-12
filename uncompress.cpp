@@ -11,10 +11,11 @@ int main(int argc, const char *argv[]){
 	ifstream input;
 	ofstream output;
 	vector<int> freqList;
+	unsigned int num_decode =0;
 
 	// open files to be decoded
 	input.open(argv[1], ios::binary);
-	output.open(argv[2]);
+	output.open(argv[2], ios::out);
 
 	// make sure there are 3 arguments inputted
 	if(argc != 3){
@@ -27,7 +28,9 @@ int main(int argc, const char *argv[]){
 	// check encoded file for the frequency of all Ascii characters
 	while(input.good()){
       		if(letter == '!'){
-			break; 
+				if(letter != '@')
+					input>>num_decode;
+					break; 
       		}
       		
 		if(letter != ' '){
@@ -49,7 +52,7 @@ int main(int argc, const char *argv[]){
 
 	//letter = input.get();
 	// decode encoded file
-	while(input.good()){
+	for(int i = 0; i<num_decode; i++){
 		unsigned char value = tree->decode(input);
 		output<<value;
 	}
