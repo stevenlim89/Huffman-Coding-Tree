@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include "HCTree.hpp"
+#include "BitOutputStream.hpp"
 #define MAX 256
 
 using namespace std;
@@ -67,10 +68,10 @@ int main( int argc, const char *argv[])
 	tree->build(list_freq);
 
 	unsigned char letter = ifs.get();
-
+	BitOutputStream bitFile = BitOutputStream(outputFile);
 	//encodes each letter in the file
 	while(ifs.good()){
-		tree->encode(letter, outputFile);
+		tree->encode(letter, bitFile);
 		//cout<<"reached"<<endl;
 		letter = ifs.get();
 

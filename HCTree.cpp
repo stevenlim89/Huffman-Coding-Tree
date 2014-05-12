@@ -1,6 +1,7 @@
 #include "HCTree.hpp"
 #include <vector>
 #include <queue>
+#include "BitOutputStream.hpp"
 
 using namespace std;
 
@@ -51,7 +52,33 @@ void HCTree::build(const vector<int>& freqs)
 
 }
 
-void HCTree::encode(byte symbol, ofstream& out) const
+
+void HCTree::encode(byte symbol, BitOutputStream& out) const
+{
+	HCNode * temp_node = HCTree::leaves[symbol];
+	if(temp_node == nullptr)
+		return;
+	if(temp_node == HCTree::root){
+		return;
+	}
+	else{
+		while(temp_node->p != 0){
+			if(temp_node == temp_node->p->c0){
+				out.BitOutputStream::writeBit(0);
+			}
+			if(temp_node == temp_node->p->c1){
+				out.BitOutputStream::writeBit(1);
+			}
+	
+			temp_node = temp_node->p;
+
+		}
+	}
+	
+}
+
+
+/*void HCTree::encode(byte symbol, ofstream& out) const
 {
 
 	vector<int> binary_num;
@@ -83,7 +110,7 @@ void HCTree::encode(byte symbol, ofstream& out) const
 		binary_num.pop_back();
 	}
 }
-
+*/
 
 int HCTree::decode(ifstream& in) const
 {

@@ -3,17 +3,17 @@ using namespace std;
 
 
 
-int readBit()
+int BitInputStream::readBit()
+{
+	
+}
+
+int BitInputStream::readByte()
 {
 
 }
 
-int readByte()
-{
-
-}
-
-int readInt()
+int BitInputStream::readInt()
 {
 
 }
