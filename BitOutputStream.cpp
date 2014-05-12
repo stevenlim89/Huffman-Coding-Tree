@@ -3,22 +3,29 @@ using namespace std;
 
 
 
-void writeBit(int bit)
+void BitOutputStream::writeBit(int bit)
 {
-
+	if(bufi == 7)
+		out.flush();
+	char mask = (bit & 1) <<bufi;
+	buf = buf | mask;
+	bufi++;
 }
 
-void writeByte(int b)
+void BitOutputStream::writeByte(int b)
 {
-
+	char byte = (b & 0xFF);
+	out<<byte;
 }
 
-void writeInt(int i)
+void BitOutputStream::writeInt(int i)
 {
-
+	out<<i;
 }
 
-void flush()
+void BitOutputStream::flush()
 {
-
+	out.put(buf);
+	out.flush();
+	buf = bufi = 0;
 }

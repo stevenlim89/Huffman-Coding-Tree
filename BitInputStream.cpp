@@ -8,7 +8,7 @@ int readBit()
 
 }
 
-int readByte()int readByte()
+int readByte()
 {
 
 }
