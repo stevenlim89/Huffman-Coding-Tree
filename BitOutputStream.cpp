@@ -5,11 +5,11 @@ using namespace std;
 
 void BitOutputStream::writeBit(int bit)
 {
-	cout<<"bufi before:"<<bufi<<endl;
-	if(bufi == 7)
+	//cout<<"bufi before:"<<bufi<<endl;
+	if(bufi == 8)
 		flush();
-	unsigned char mask = (bit & 1) <<bufi;
-	buf = buf | mask;
+	char mask = (buf<<1);
+	buf = mask | (bit);
 	bufi++;
      
         
@@ -28,6 +28,11 @@ void BitOutputStream::writeInt(int i)
 
 void BitOutputStream::flush()
 {
+	if(bufi != 8){
+		buf<<(8-bufi);
+	//cout<<"Byte stored is "<<(unsigned char)buf<<endl;	
+	}
+//	cout<<"Byte stored is "<<(unsigned char)buf<<endl;	
 	out.put(buf);
 	out.flush();
 	buf = bufi = 0;

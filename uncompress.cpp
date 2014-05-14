@@ -57,6 +57,8 @@ int main(int argc, const char *argv[]){
 	for(int i = 0; i<num_decode; i++){
 		unsigned char value = tree->decode(bitFile);
 		//cout<<"This is the char value:     "<<num_decode<<endl;
+
+		cout<<"letter:"<<value<<endl;
 		output<<value;
 	}
         

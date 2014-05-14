@@ -7,19 +7,18 @@ int BitInputStream::readBit()
 		return -1;
 	}
 	
-	if(bufi == 0){
+	if(bufi == 8){
 		buf = in.get();
-		bufi = 8;
+		bufi = 0;
 	}
 	
-	int readBit = (buf & 1); 
-	cout<<"This is the read bit:     "<<readBit<<endl;	
-	buf = (buf>> 1);
-	bufi--;
-	cout<<"BUFI INDEX:               "<<bufi<<endl;
+	//int readBit = (buf & 1); 
+//	cout<<"This is the read bit:     "<<readBit<<endl;	
+	int readBit = ((buf>>(7-bufi)) & 1);
+	bufi++;
+	//cout<<"BUFI INDEX:               "<<bufi<<endl;
 	return readBit;	
 }
-//edgar allen poe and spoken word
 
 int BitInputStream::readByte()
 {
