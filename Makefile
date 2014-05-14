@@ -9,19 +9,10 @@ CXXFLAGS=-std=c++11 -g
 
 LDFLAGS=-g
 
-<<<<<<< HEAD
 
 all: compress uncompress
-=======
-all: compress
->>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 
-
-<<<<<<< HEAD
 compress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
-
-=======
->>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 
 uncompress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
 

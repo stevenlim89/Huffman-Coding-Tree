@@ -1,9 +1,6 @@
 #include "BitInputStream.hpp"
 #include "BitOutputStream.hpp"
-#include <iostream>
-using namespace std;
 
-<<<<<<< HEAD
 int BitInputStream::readBit()
 {
 	if(in.eof()){
@@ -23,15 +20,7 @@ int BitInputStream::readBit()
 	return readBit;	
 }
 //edgar allen poe and spoken word
-=======
 
-
-int BitInputStream::readBit()
-{
-	
-}
-
->>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 int BitInputStream::readByte()
 {
 	if(in.eof()){
@@ -42,7 +31,6 @@ int BitInputStream::readByte()
 //	return character;
 }
 
-<<<<<<< HEAD
 	
 void BitInputStream::fill()
 {
@@ -50,8 +38,7 @@ void BitInputStream::fill()
 	buf = in.get();
 	bufi = 8;
 }
-=======
->>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
+
 int BitInputStream::readInt()
 {
 	if(in.eof()){
