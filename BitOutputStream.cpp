@@ -5,9 +5,10 @@ using namespace std;
 
 void BitOutputStream::writeBit(int bit)
 {
+	cout<<"bufi before:"<<bufi<<endl;
 	if(bufi == 7)
-		out.flush();
-	char mask = (bit & 1) <<bufi;
+		flush();
+	unsigned char mask = (bit & 1) <<bufi;
 	buf = buf | mask;
 	bufi++;
      
@@ -16,7 +17,7 @@ void BitOutputStream::writeBit(int bit)
 
 void BitOutputStream::writeByte(int b)
 {
-	char byte = (b & 0xFF);
+	unsigned char byte = (b & 0xFF);
 	out<<byte;
 }
 

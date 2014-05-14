@@ -2,7 +2,12 @@
 #include "BitOutputStream.hpp"
 #include <vector>
 #include <queue>
+<<<<<<< HEAD
 #include "BitInputStream.hpp"
+=======
+#include "BitOutputStream.hpp"
+
+>>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 using namespace std;
 
 HCTree::~HCTree(){}
@@ -52,6 +57,10 @@ void HCTree::build(const vector<int>& freqs)
 
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 void HCTree::encode(byte symbol, BitOutputStream& out) const
 {
 	HCNode * temp_node = HCTree::leaves[symbol];
@@ -73,6 +82,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const
 
 		}
 	}
+<<<<<<< HEAD
 }
 
 int HCTree::decode(BitInputStream& in) const
@@ -105,6 +115,13 @@ int HCTree::decode(BitInputStream& in) const
 
 /*
 void HCTree::encode(byte symbol, ofstream& out) const
+=======
+	
+}
+
+
+/*void HCTree::encode(byte symbol, ofstream& out) const
+>>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 {
 
 	vector<int> binary_num;
@@ -138,7 +155,11 @@ void HCTree::encode(byte symbol, ofstream& out) const
 }
 */
 
+<<<<<<< HEAD
 /*int HCTree::decode(ifstream& in) const
+=======
+int HCTree::decode(ifstream& in) const
+>>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 {
 	vector<int> freqV; 
 

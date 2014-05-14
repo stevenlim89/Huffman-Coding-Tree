@@ -60,7 +60,11 @@ public:
      *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
      *  BE USED IN THE FINAL SUBMISSION.
      */
+<<<<<<< HEAD
 //    void encode(byte symbol, ofstream& out) const;
+=======
+    //void encode(byte symbol, ofstream& out) const;
+>>>>>>> 5f43817e50655b5bddf1ca231dac0a6cf72257fb
 
 
     /** Return symbol coded in the next sequence of bits from the stream.
