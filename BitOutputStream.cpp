@@ -10,6 +10,8 @@ void BitOutputStream::writeBit(int bit)
 	char mask = (bit & 1) <<bufi;
 	buf = buf | mask;
 	bufi++;
+     
+        
 }
 
 void BitOutputStream::writeByte(int b)

@@ -18,8 +18,11 @@ private:
 public:
   /** Initialize a BitInputStream object, given an istream.
    */
-  BitInputStream(istream& s) : in(s), buf(0), bufi(8) { }
+  BitInputStream(istream& s) : in(s), buf(0), bufi(8) { 
+  }
   //    BitInputStream(istream& s) : in(s), bufi(8) { }
+  
+   void fill();
 
     /** Read the next bit from the bit buffer.
      *  If the bit buffer is currently empty,

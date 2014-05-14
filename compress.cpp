@@ -1,5 +1,5 @@
 // Sharon Zheng <s5zheng>, Steven Lim <stl054>
-
+#include "BitOutputStream.hpp"
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -68,15 +68,16 @@ int main( int argc, const char *argv[])
 
 	unsigned char letter = ifs.get();
 
+	BitOutputStream bitFile = BitOutputStream(outputFile);
 	//encodes each letter in the file
 	while(ifs.good()){
-		tree->encode(letter, outputFile);
+		tree->encode(letter, bitFile);
 		//cout<<"reached"<<endl;
 		letter = ifs.get();
 
 	}
 
-
+	bitFile.flush();
 	ifs.close();
 	outputFile.close();
 	return 0;

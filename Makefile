@@ -1,27 +1,37 @@
+
+
 # A simple makefile for CSE 100 P3
 
+
 CC=g++
+
 CXXFLAGS=-std=c++11 -g
+
 LDFLAGS=-g
+
 
 all: compress uncompress
 
-compress: HCNode.o HCTree.o BitOutputStream.o
 
-uncompress: HCNode.o HCTree.o BitInputStream.o
+compress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
 
-HCTree.o: HCNode.hpp HCTree.hpp HCTree.cpp 
 
-HCNode.o: HCNode.hpp HCNode.cpp
+uncompress: BitInputStream.o BitOutputStream.o HCNode.o HCTree.o
 
-BitOutputStream.o: BitOutputStream.hpp BitOutputStream.cpp
 
-BitInputStream.o: BitInputStream.hpp BitInputStream.cpp
+HCTree.o: BitInputStream.hpp BitOutputStream.hpp HCNode.hpp HCTree.hpp
 
-new:
-	make clean
-	make
+
+HCNode.o: HCNode.hpp
+
+
+BitOutputStream.o: BitOutputStream.hpp
+
+
+BitInputStream.o: BitInputStream.hpp
+
 
 clean:
 	rm -f compress uncompress *.o core*
+
 

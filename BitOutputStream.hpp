@@ -17,7 +17,7 @@ private:
   int bufi;     // the bit buffer index
 
 public:
-  BitOutputStream(ostream& s) : out(s), buf(0), bufi(0) { }
+ BitOutputStream(ostream& s) : out(s), buf(0), bufi(0) { }
   //  BitOutputStream(ostream& s) : out(s), bufi(0) { }
 
   /** Write the least significant bit of the argument into

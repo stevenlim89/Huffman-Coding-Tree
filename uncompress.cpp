@@ -4,6 +4,7 @@
 #include <vector>
 #include "HCTree.hpp" 
 #include <istream>
+#include "BitInputStream.hpp"
 
 using namespace std;
 
@@ -52,8 +53,10 @@ int main(int argc, const char *argv[]){
 
 	//letter = input.get();
 	// decode encoded file
+	BitInputStream bitFile = BitInputStream(input);
 	for(int i = 0; i<num_decode; i++){
-		unsigned char value = tree->decode(input);
+		unsigned char value = tree->decode(bitFile);
+		//cout<<"This is the char value:     "<<num_decode<<endl;
 		output<<value;
 	}
         

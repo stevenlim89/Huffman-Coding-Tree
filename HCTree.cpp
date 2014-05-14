@@ -1,7 +1,8 @@
 #include "HCTree.hpp"
+#include "BitOutputStream.hpp"
 #include <vector>
 #include <queue>
-
+#include "BitInputStream.hpp"
 using namespace std;
 
 HCTree::~HCTree(){}
@@ -51,6 +52,58 @@ void HCTree::build(const vector<int>& freqs)
 
 }
 
+void HCTree::encode(byte symbol, BitOutputStream& out) const
+{
+	HCNode * temp_node = HCTree::leaves[symbol];
+	if(temp_node == nullptr)
+		return;
+	if(temp_node == HCTree::root){
+		return;
+	}
+	else{
+		while(temp_node->p != 0){
+			if(temp_node == temp_node->p->c0){
+				out.BitOutputStream::writeBit(0);
+			}
+			if(temp_node == temp_node->p->c1){
+				out.BitOutputStream::writeBit(1);
+			}
+	
+			temp_node = temp_node->p;
+
+		}
+	}
+}
+
+int HCTree::decode(BitInputStream& in) const
+{
+	vector<int> freqV; 
+	int num = in.BitInputStream::readBit();
+	//cout<<"first c:"<<c<<endl;
+    	HCNode *tempNode = HCTree::root; 
+    	
+	while(tempNode->c0 != 0 && tempNode->c1 != 0 && num != -1){
+	cout<<num<<endl;
+		if(num == 0){
+          		tempNode = tempNode->c0;
+			//cout<<"0";
+       		}
+
+        	if(num == 1){
+        		tempNode = tempNode->c1;
+			//cout<<"1";
+		} 
+       	
+		num = in.BitInputStream::readBit();
+		//cout<<"second c:"<<c<<endl;
+    	} 
+	//cout<<'\n';
+	//in.putback(num);
+
+    	return tempNode->symbol; 
+}
+
+/*
 void HCTree::encode(byte symbol, ofstream& out) const
 {
 
@@ -83,9 +136,9 @@ void HCTree::encode(byte symbol, ofstream& out) const
 		binary_num.pop_back();
 	}
 }
+*/
 
-
-int HCTree::decode(ifstream& in) const
+/*int HCTree::decode(ifstream& in) const
 {
 	vector<int> freqV; 
 
@@ -112,5 +165,5 @@ int HCTree::decode(ifstream& in) const
 	in.putback(c);
 
     	return tempNode->symbol; 
-}
+}*/
 
