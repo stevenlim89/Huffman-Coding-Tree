@@ -11,18 +11,19 @@ using namespace std;
 class BitInputStream {
 private:
     istream& in;  // the istream to delegate to
-    char buf;     // the buffer of bits
-  //bitset<8> buf;
+    unsigned char buf;     // the buffer of bits
+    bitset<8> ch;
     int bufi;     // the bit buffer index
 
 public:
+bool flag = true;
   /** Initialize a BitInputStream object, given an istream.
    */
   BitInputStream(istream& s) : in(s), buf(0), bufi(8) { 
   }
   //    BitInputStream(istream& s) : in(s), bufi(8) { }
   
-   void fill();
+   void fill(int x);
 
     /** Read the next bit from the bit buffer.
      *  If the bit buffer is currently empty,

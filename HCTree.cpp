@@ -58,6 +58,7 @@ void HCTree::build(const vector<int>& freqs)
 void HCTree::encode(byte symbol, BitOutputStream& out) const
 {
 	vector<unsigned int> bitStack;
+	int count = 0;	
 	HCNode * temp_node = HCTree::leaves[symbol];
 	if(temp_node == nullptr)
 		return;
@@ -69,42 +70,50 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const
 			if(temp_node == temp_node->p->c0){
 				//out.BitOutputStream::writeBit(0);
 				bitStack.push_back(0);
+				count++;	
 			}
 			if(temp_node == temp_node->p->c1){
 				//out.BitOutputStream::writeBit(1);
 				bitStack.push_back(1);	
+				count++;	
 			}
 	
 			temp_node = temp_node->p;
 
 		}
-		cout<<"binary:";
-		while(!bitStack.empty()){
+	
+		//cout<<"binary:";
+		while(!bitStack.empty()){	
 			if(bitStack.back() == 0){
 				out.BitOutputStream::writeBit(0);
-				cout<<0;
+			//	cout<<0;	
+			//	cout<<"This is zero: "<<bitStack.back()<<endl;	
 				bitStack.pop_back();
 			}
 			if(bitStack.back() == 1){
 				out.BitOutputStream::writeBit(1);
-				cout<<1;
+		//		cout<<1;
+			 	//cout<<"This is one: "<<bitStack.back()<<endl;	
 				bitStack.pop_back();
 			}
 
 		}
-		cout<<'\n';
 	}
+		if(count%8 != 0){
+			cout<<"This is the count: "<<count<<endl;	
+			//out.BitOutputStream::flush();
+		}	
 }
 
 int HCTree::decode(BitInputStream& in) const
 {
 	vector<int> freqV; 
-	int num = in.BitInputStream::readBit();
 	//cout<<"first c:"<<c<<endl;
     	HCNode *tempNode = HCTree::root; 
-    	
+    	int num = 0; 	
 	while(tempNode->c0 != 0 && tempNode->c1 != 0 && num != -1){
-	cout<<"This is num:    "<<num<<endl;
+	//cout<<"INFITE LOOP    "<<endl;
+	 num = in.BitInputStream::readBit();
 		if(num == 0){
           		tempNode = tempNode->c0;
 			//cout<<"0";
@@ -114,14 +123,14 @@ int HCTree::decode(BitInputStream& in) const
         		tempNode = tempNode->c1;
 			//cout<<"1";
 		} 
-       	
-		num = in.BitInputStream::readBit();
+		
 		//cout<<"second c:"<<c<<endl;
-    	} 
-	//cout<<'\n';
-	//in.putback(num);
+    	}
 
-    	return tempNode->symbol; 
+	//cout<<'\n';
+//	in.BitInputStream::fill(num);
+	cout<<"This is the tempNode symbol: "<<tempNode->symbol<<endl;	
+	return tempNode->symbol; 
 }
 
 

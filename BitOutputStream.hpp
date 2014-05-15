@@ -13,7 +13,7 @@ class BitOutputStream {
 private:
   ostream& out;  // the ostream to delegate to
   char buf;     // the buffer of bits
-  //  bitset<8> buf;     // the buffer of bits
+  bitset<8> ch;     // the buffer of bits
   int bufi;     // the bit buffer index
 
 public:
@@ -27,6 +27,10 @@ public:
    */
   void writeBit(int bit);
 
+  int getBufi()
+  {
+     return bufi;
+ } 
   /** Write the least significant byte of the argument to the ostream.
    *  This function doesn't touch the bit buffer.
    *  The client has to manage interaction between writing bits

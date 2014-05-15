@@ -9,14 +9,15 @@ int BitInputStream::readBit()
 	
 	if(bufi == 8){
 		buf = in.get();
+		ch = (int)buf;
+//		cout<<"This is ch: "<<ch<<endl;
 		bufi = 0;
 	}
-	
 	//int readBit = (buf & 1); 
-//	cout<<"This is the read bit:     "<<readBit<<endl;	
 	int readBit = ((buf>>(7-bufi)) & 1);
+	cout<<"This is the read bit:     "<<readBit<<endl;	
+//	cout<<"BUFI INDEX:               "<<bufi<<endl;
 	bufi++;
-	//cout<<"BUFI INDEX:               "<<bufi<<endl;
 	return readBit;	
 }
 
@@ -31,11 +32,10 @@ int BitInputStream::readByte()
 }
 
 	
-void BitInputStream::fill()
+void BitInputStream::fill(int n)
 {
-	cout<<"HELLLLLOOOOOOOOOOOOOOOOO"<<endl;	
-	buf = in.get();
-	bufi = 8;
+	in.putback((char)n);
+	bufi--;
 }
 
 int BitInputStream::readInt()

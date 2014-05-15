@@ -72,13 +72,12 @@ int main( int argc, const char *argv[])
 	BitOutputStream bitFile = BitOutputStream(outputFile);
 	//encodes each letter in the file
 	while(ifs.good()){
-		cout<<"letter compressed:"<<letter<<endl;
+		//cout<<"letter compressed:"<<letter<<endl;
 		tree->encode(letter, bitFile);
 		//cout<<"reached"<<endl;
 		letter = ifs.get();
 
 	}
-
 	bitFile.flush();
 	ifs.close();
 	outputFile.close();

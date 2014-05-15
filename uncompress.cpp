@@ -28,7 +28,8 @@ int main(int argc, const char *argv[]){
    	
 	// check encoded file for the frequency of all Ascii characters
 	while(input.good()){
-      		if(letter == '!'){
+      	//	cout<<"This is the loop for the frequency    "<<endl;	
+		if(letter == '!'){
 				if(letter != '@')
 					input>>num_decode;
 					break; 
@@ -51,14 +52,15 @@ int main(int argc, const char *argv[]){
 	HCTree *tree = new HCTree();
 	tree->build(freqList);
 
-	//letter = input.get();
+	letter = input.get();
 	// decode encoded file
 	BitInputStream bitFile = BitInputStream(input);
 	for(int i = 0; i<num_decode; i++){
-		unsigned char value = tree->decode(bitFile);
+	//	cout<<"This is the loop to decode the file     "<<endl;	
+		char value = tree->decode(bitFile);
 		//cout<<"This is the char value:     "<<num_decode<<endl;
 
-		cout<<"letter:"<<value<<endl;
+		//cout<<"letter:"<<value<<endl;
 		output<<value;
 	}
         
