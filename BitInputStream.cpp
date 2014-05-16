@@ -3,20 +3,16 @@
 
 int BitInputStream::readBit()
 {
-	if(in.eof()){
+	if(!in.good()){
 		return -1;
 	}
 	
 	if(bufi == 8){
+		//in.read(reinterpret_cast<char *>(&buf), 1);
 		buf = in.get();
-		ch = (int)buf;
-//		cout<<"This is ch: "<<ch<<endl;
 		bufi = 0;
 	}
-	//int readBit = (buf & 1); 
-	int readBit = ((buf>>(7-bufi)) & 1);
-	cout<<"This is the read bit:     "<<readBit<<endl;	
-//	cout<<"BUFI INDEX:               "<<bufi<<endl;
+	unsigned int readBit = ((buf>>(7-bufi)) & 1);
 	bufi++;
 	return readBit;	
 }
@@ -27,14 +23,12 @@ int BitInputStream::readByte()
 		return -1;
 	}
 
-//	int character = in.read(buf, sizeof(char));
-//	return character;
 }
 
 	
 void BitInputStream::fill(int n)
 {
-	in.putback((char)n);
+	in.putback((unsigned char)n);
 	bufi--;
 }
 
