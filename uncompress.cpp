@@ -52,7 +52,7 @@ int main(int argc, const char *argv[]){
 		freq = inFile.readInt();
 		//input>>freq;
 		//cout<<"freq"<<freq<<endl;
-		printf("%d\n", freq);
+		//printf("%d\n", freq);
         	freqList.push_back(freq);
       		size++;
    	}
@@ -74,7 +74,7 @@ int main(int argc, const char *argv[]){
 		else
 			break;
 	}
-        
+       
 	// close the files
 	input.close();
 	output.close();

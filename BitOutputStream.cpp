@@ -29,8 +29,7 @@ void BitOutputStream::writeBit(int bit)
 	}
 	
 	//shifts the buffer by one and inserts the bit at the end
-	unsigned char mask = (buf<<1) | bit;
-	buf = mask;
+	buf = (buf<<1) | bit;
 	bufi++;
      
         
@@ -47,7 +46,7 @@ void BitOutputStream::writeBit(int bit)
 void BitOutputStream::writeByte(int b)
 {
 	//gets the least significant byte
-	out.put((char) b);
+	out.put( b);
 }
 
 // --------------------------------------------------------------------------
@@ -70,6 +69,7 @@ void BitOutputStream::writeInt(int i)
 void BitOutputStream::flush()
 {	
 	//checks if the buffer is full for the stray bits
+	if (bufi == 0) return;
 	if(bufi != 8){
 		buf = buf<<(8-bufi);
 	}

@@ -70,8 +70,8 @@ int BitInputStream::readInt()
 		int buffer = 0;
 	in.read((char *)&buffer, 4);
 if(in.eof()){
-		printf("hello\n");
-		return -1;
+		//printf("hello\n");
+		return buffer;
 	}
 
 	return buffer;

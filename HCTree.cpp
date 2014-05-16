@@ -54,10 +54,9 @@ void HCTree::build(const vector<int>& freqs)
 	for( int num =0 ; num < freqs.size(); num++){
 		if(freqs[num] != 0){
 			//creates a node if the there is a frequency
-			HCTree::leaves[num] = new HCNode(freqs[num], num, 0, 0, 0);				if((unsigned int)leaves[num]->symbol != 0){
-				//pushes on to the priority queue
+			HCTree::leaves[num] = new HCNode(freqs[num], num, 0, 0, 0);						//pushes on to the priority queue
 				node_pq.push(leaves[num]);
-			}
+			
 		}
 	}
 	

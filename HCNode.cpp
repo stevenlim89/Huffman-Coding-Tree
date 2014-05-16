@@ -20,7 +20,7 @@ using namespace std;
 // Output: bool true or false
 // --------------------------------------------------------------------------
 bool HCNode::operator<(const HCNode& other){
-	if(count != other.count)
+	if(this->count != other.count)
 		return count> other.count;
 	else	
 		return symbol<other.symbol;
