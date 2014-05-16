@@ -1,3 +1,13 @@
+// ---------------------------------------------------------------------------
+// Filename: HCNode.hpp
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Creates a node that contains the frequency count, symbol, the
+// 		parent pointer, and the two children pointers. The nodes are 
+// 		then implemented in the Huffman Tree algorithm.
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
 #ifndef HCNODE_HPP
 #define HCNODE_HPP
 

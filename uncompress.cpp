@@ -1,4 +1,15 @@
-// Sharon Zheng <s5zheng>, Steven Lim <stl054>
+// ---------------------------------------------------------------------------
+// Filename: uncompress.cpp
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Uncompresses the file that has been compress by recreating the
+// 		tree with the frequency stored in the header file. Using the 
+// 		same tree, the file will decode the message stored as a binary
+// 		into the same file as before. 
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
+
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -6,17 +17,17 @@
 #include <istream>
 #include "BitInputStream.hpp"
 #include <istream>
+#include <stdio.h>
 using namespace std;
 
 
 int main(int argc, const char *argv[]){
+	//declare variables
 	ifstream input;
 	ofstream output;
 	vector< int> freqList;
-	vector<unsigned int> asciiList;
 	unsigned int num_decode =0;
 	unsigned int freq = 0; 
-	byte temp;
 
 	// open files to be decoded
 	input.open(argv[1], ios::binary);
@@ -29,32 +40,37 @@ int main(int argc, const char *argv[]){
    	}
 
 	
-   	
-	unsigned int size = 0;
-	// check encoded file for the frequency of all Ascii characters
-	while(size<256){
-		//input.read(reinterpret_cast<char *>(&freq), 1);
-		input>>freq;
-		cout<<"freq1"<<freq<<endl;
-        	freqList.push_back(freq);
-      		
-      		size++;
+   	BitInputStream inFile(input);
+	BitOutputStream outFile(output);
+	
 
+		
+	int size = 0;
+	// checks encoded file for the frequency of all Ascii characters
+	// and stores them into the vector 
+	while(size<256){
+		freq = inFile.readInt();
+		//input>>freq;
+		//cout<<"freq"<<freq<<endl;
+		printf("%d\n", freq);
+        	freqList.push_back(freq);
+      		size++;
    	}
-	input>>num_decode;
-	//input.read(reinterpret_cast<char *>(&num_decode), 4);
-	//cout<<"num_decode"<<num_decode<<endl;
-		// build a tree
+	
+	//obtain the number for the times to decode
+	num_decode=inFile.readInt();
+	
+	// build a tree using the frequency list that has been recreated
 	HCTree tree;
 	tree.build(freqList);
-	input.read(reinterpret_cast<char *>(&freq), 1);
-		cout<<"freq2"<<freq<<endl;
 
-	BitInputStream bitFile = BitInputStream(input);
+
+
+	//loops to decode the file
 	for(int i = 0; i< num_decode; i++){
-		byte value = tree.decode(bitFile);
-		if((unsigned int)value != -1)
-			output.write(reinterpret_cast<char *>(&value), 1);
+		int value = tree.decode(inFile);
+		if(value != -1)
+			outFile.writeByte((unsigned char)value);
 		else
 			break;
 	}

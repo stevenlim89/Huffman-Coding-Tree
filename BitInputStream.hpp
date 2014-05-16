@@ -1,3 +1,13 @@
+// ---------------------------------------------------------------------------
+// Filename: BitInputStream.hpp
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Reads bits and integers from an istream by obtaining a byte 
+// 		and interpret each individual bit that has been compressed.
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
+
 #ifndef BITINPUTSTREAM_HPP
 #define BITINPUTSTREAM_HPP
 
@@ -23,7 +33,6 @@ bool flag = true;
   }
   //    BitInputStream(istream& s) : in(s), bufi(8) { }
   
-   void fill(int x);
 
     /** Read the next bit from the bit buffer.
      *  If the bit buffer is currently empty,

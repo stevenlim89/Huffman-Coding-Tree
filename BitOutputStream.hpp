@@ -1,3 +1,13 @@
+// ---------------------------------------------------------------------------
+// Filename: BitOutputStream.hpp
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Writes chars and integers to an ostream into bits by writing
+// 		their binary code and compressing them.
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
+
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 

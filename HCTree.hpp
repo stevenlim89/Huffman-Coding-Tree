@@ -1,3 +1,15 @@
+// ---------------------------------------------------------------------------
+// Filename: HCTree.hpp
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Implements the Huffman Coding Tree algorithm by pushing the 
+// 		nodes into a priority queue and combining those of the lowest
+// 		counts repeatedly. This tree allows for an efficient search
+// 		of encoding and decoding.
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
+
 #ifndef HCTREE_HPP
 #define HCTREE_HPP
 

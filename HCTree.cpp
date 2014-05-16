@@ -1,15 +1,15 @@
-//------------------------------------------------
+// ---------------------------------------------------------------------------
 // Filename: HCTree.cpp
-// Author: Steven Lim <stl054>, Sharon Zheng <s5zheng>
-// Date: 15 May 2014
-// Rev-Date: 15 May 2014
-// Description: 
-// numbers.
-//
-// Acknowledgements: Thanks to Ben for helping me
-// understand iterative loops.
-//------------------------------------------------
-//
+// Authors: Steven Lim, Sharon Zheng
+// Date: 5/5/2014
+// Rev-Date: 5/16/2014
+// Description: Implements the Huffman Coding Tree algorithm by pushing the 
+// 		nodes into a priority queue and combining those of the lowest
+// 		counts repeatedly. This tree allows for an efficient search
+// 		of encoding and decoding.
+// Acknowledgements: Thank you, tutors!
+// ---------------------------------------------------------------------------
+
 #include "HCTree.hpp"
 #include "BitOutputStream.hpp"
 #include <vector>
@@ -19,12 +19,13 @@
 
 using namespace std;
 
+/** Helper method to delete the nodes */
 void delete_HCNodes(HCNode* root){
-	
+	//set the node to the node passed in
     	HCNode *tempNode = root;
 	if(tempNode == NULL)
 		return;
-
+	//recursively deletes it
 	delete_HCNodes(tempNode->c0);
 	delete_HCNodes(tempNode->c1);
 
@@ -32,44 +33,61 @@ void delete_HCNodes(HCNode* root){
 	delete tempNode;
 }
 
+//HCTree destructor that deletes all nodes
 HCTree::~HCTree(){
 	delete_HCNodes(root);
 }
 
-
+// --------------------------------------------------------------------------
+// void HCTree::build(const vector<int>& freqs): Uses the Huffman algorithm 
+// build a Huffman coding trie by passing in a vector of integers such that
+// freq[i] is the frequency of the occurrence of byte i in the message.
+// Input: const vector<int>& freqs)-vector of ints
+// Output: <none>
+// --------------------------------------------------------------------------
 void HCTree::build(const vector<int>& freqs)
 {
-	vector<unsigned int> list_ascii;
-	vector<unsigned int> list_freq;
-	vector<HCNode*> list_node;
+	//creates a priority queue to store a vector of nodes
 	priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> node_pq;
 
-	//loops through the frequency to create single nodes		
+	//loops through the vector of frequencies		
 	for( int num =0 ; num < freqs.size(); num++){
 		if(freqs[num] != 0){
-			HCTree::leaves[num] = new HCNode(freqs[num], num, 0, 0, 0);				
-			if((unsigned int)leaves[num]->symbol != 0){
+			//creates a node if the there is a frequency
+			HCTree::leaves[num] = new HCNode(freqs[num], num, 0, 0, 0);				if((unsigned int)leaves[num]->symbol != 0){
+				//pushes on to the priority queue
 				node_pq.push(leaves[num]);
 			}
 		}
 	}
-	//creates the tree
+	
+	//creates the tree and
 	while(node_pq.size() != 0){
+		//checks if there's only one node left in the priority queue
 		if(node_pq.size() == 1){
+			//sets the root for the last node
 			HCTree::root = node_pq.top();
+			//sets parent pointer
 			HCTree::root->p = 0;
+			//pops the last node
 			node_pq.pop();
 			return;
 		}
 		else{	
+			//obtains the first two node in the priority queue	
 			HCNode * low1 = node_pq.top();
 			node_pq.pop();
 			HCNode * low2 = node_pq.top();
 			node_pq.pop();
+
+			//adds the two counts and creates a new parent node
+			//and connects the pointers
 			int sum = low1->count + low2->count;
 			HCNode * combined = new HCNode(sum, 0, low1, low2, 0);
 			low1->p = combined;
 			low2->p = combined;
+
+			//pushes the pointer back into the priority queue
 			node_pq.push(combined);
 		}
 	}
@@ -79,32 +97,43 @@ void HCTree::build(const vector<int>& freqs)
 
 }
 
-
+// --------------------------------------------------------------------------
+// void HCTree::encode(byte symbol, BitOutputStream& out) const: Writes to 
+// the given BitOutputStream in the sequence of bits coding the given symbol.
+// Input: byte symbol-the symbol to encode
+// 	  BitOutputStream& out-the BitOutputStream file that is being written
+// Output: <none>
+// --------------------------------------------------------------------------
 void HCTree::encode(byte symbol, BitOutputStream& out) const
-{
+{	
+	//vector to store the binary conversion
 	vector<unsigned int> bitStack;
-	int count = 0;	
+	//set the temp node to the symbol of the leaves
 	HCNode * temp_node = HCTree::leaves[symbol];
+	
+	//check if temp node is null or if it's the root
 	if(temp_node == nullptr)
 		return;
 	if(temp_node == HCTree::root){
 		return;
 	}
-	else{
+	else{	
+		//loops while it's not the root
 		while(temp_node->p != 0){
+			//checks if the node is on the left or right 
+			//and push the number into the vector
 			if(temp_node == temp_node->p->c0){
 				bitStack.push_back(0);
-				count++;	
 			}
 			if(temp_node == temp_node->p->c1){
 				bitStack.push_back(1);	
-				count++;	
 			}
 	
 			temp_node = temp_node->p;
 
 		}
 	
+		//rewrites the vector backwards to store the bits correctly
 		while(!bitStack.empty()){	
 			if(bitStack.back() == 0){
 				out.BitOutputStream::writeBit(0);
@@ -120,13 +149,24 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const
 
 }
 
+// --------------------------------------------------------------------------
+// int HCTree::decode(BitInputStream& in) const: Returns the symbol coded in
+// the next sequence of bits from the stream.
+// Input: BitInputStream& in-the BitInputStream file that is being read and
+// decoded
+// Output: returns an integer value of the symbol stored in the node
+// --------------------------------------------------------------------------
 int HCTree::decode(BitInputStream& in) const
 {
-	vector<unsigned int> freqV; 
-    	HCNode *tempNode = HCTree::root; 
+    	//sets the tempnode to the root
+	HCNode *tempNode = HCTree::root; 
     	int num = 0; 	
+	
+	//continuously loops until it reaches the leave with no children
 	while(tempNode->c0 != 0 && tempNode->c1 != 0){
+		//reads the bit
 		num = in.BitInputStream::readBit();
+
 		if(num == -1)
 		{
 			return -1;
@@ -141,72 +181,7 @@ int HCTree::decode(BitInputStream& in) const
 		} 
 		
     	}
-
-	return tempNode->symbol; 
-}
-
-
-
-/*void HCTree::encode(byte symbol, ofstream& out) const
-{
-
-	vector<int> binary_num;
-	HCNode * temp_node = HCTree::leaves[symbol];
-	if(temp_node == nullptr)
-		return;
-	if(temp_node == HCTree::root){
-		out<<0<<endl;
-		return;
-	}
-	else{
-		while(temp_node->p != 0){
-			if(temp_node == temp_node->p->c0){
-				binary_num.push_back(0);
-			}
-			if(temp_node == temp_node->p->c1){
-				binary_num.push_back(1);
-			}
 	
-			temp_node = temp_node->p;
-
-		}
-	}
-
-
-	//cout<<binary_num.size();
-	while(binary_num.size() !=0){
-		out<<binary_num.back();
-		binary_num.pop_back();
-	}
+	//returns the node symbol
+	return (int)(tempNode->symbol); 
 }
-*/
-/*
-int HCTree::decode(ifstream& in) const
-{
-	vector<int> freqV; 
-
-	unsigned char c = in.get(); 
-	//cout<<"first c:"<<c<<endl;
-    
-    	HCNode *tempNode = HCTree::root; 
-
-    	while(tempNode->c0 != 0 && tempNode->c1 != 0){
-       		if(c == '0'){
-          		tempNode = tempNode->c0;
-			//cout<<"0";
-       		}
-
-        	if(c == '1'){
-        		tempNode = tempNode->c1;
-			//cout<<"1";
-		} 
-       	
-		c = in.get();
-		//cout<<"second c:"<<c<<endl;
-    	} 
-	//cout<<'\n';
-	in.putback(c);
-
-    	return tempNode->symbol; 
-}*/
-
