@@ -33,22 +33,30 @@ int main(int argc, const char *argv[]){
 	unsigned int size = 0;
 	// check encoded file for the frequency of all Ascii characters
 	while(size<256){
+		//input.read(reinterpret_cast<char *>(&freq), 1);
 		input>>freq;
+		cout<<"freq1"<<freq<<endl;
         	freqList.push_back(freq);
       		
       		size++;
 
    	}
 	input>>num_decode;
+	//input.read(reinterpret_cast<char *>(&num_decode), 4);
+	//cout<<"num_decode"<<num_decode<<endl;
 		// build a tree
-	HCTree *tree = new HCTree();
-	tree->build(freqList);
+	HCTree tree;
+	tree.build(freqList);
 	input.read(reinterpret_cast<char *>(&freq), 1);
+		cout<<"freq2"<<freq<<endl;
+
 	BitInputStream bitFile = BitInputStream(input);
 	for(int i = 0; i< num_decode; i++){
-		byte value = tree->decode(bitFile);
+		byte value = tree.decode(bitFile);
 		if((unsigned int)value != -1)
 			output.write(reinterpret_cast<char *>(&value), 1);
+		else
+			break;
 	}
         
 	// close the files

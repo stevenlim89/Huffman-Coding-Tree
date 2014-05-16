@@ -22,18 +22,13 @@ using namespace std;
 void delete_HCNodes(HCNode* root){
 	
     	HCNode *tempNode = root;
-	if(tempNode == 0)
+	if(tempNode == NULL)
 		return;
 
-	if(tempNode->c0){
-		tempNode = tempNode->c0;
-		delete_HCNodes(tempNode);
-	}
+	delete_HCNodes(tempNode->c0);
+	delete_HCNodes(tempNode->c1);
 
-	if(tempNode->c1){
-		tempNode = tempNode->c1;
-		delete_HCNodes(tempNode);
-	}
+
 	delete tempNode;
 }
 
@@ -58,7 +53,6 @@ void HCTree::build(const vector<int>& freqs)
 			}
 		}
 	}
-
 	//creates the tree
 	while(node_pq.size() != 0){
 		if(node_pq.size() == 1){
@@ -81,7 +75,7 @@ void HCTree::build(const vector<int>& freqs)
 	}
 
 
-
+	return;
 
 }
 

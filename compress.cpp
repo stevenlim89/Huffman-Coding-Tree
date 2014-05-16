@@ -21,8 +21,9 @@ int main( int argc, const char *argv[])
 	unsigned int asciiArray[MAX];
 	unsigned int decode = 0;
 
+
 	ifs.open(argv[1], ios::binary);
-	outputFile.open(argv[2], ios::binary);
+
 
 
 	//check if there are more than 3 arguments
@@ -49,7 +50,8 @@ int main( int argc, const char *argv[])
 		letter1 = ifs.get();
 
 	}
-	
+	ifs.close();
+	outputFile.open(argv[2], ios::binary);
 	//pushes all the frequency into a vector
 	for( int k =0 ; k < MAX; k++){
 		list_freq.push_back(asciiArray[k]);
@@ -60,18 +62,18 @@ int main( int argc, const char *argv[])
 	outputFile<<decode;
 	outputFile<<' ';	
 	//resets the pointer to the beginning of the file
-	ifs.clear();
-	ifs.seekg(0, ios::beg);
-	
+	HCTree tree;	
 	//creates a tree and build it
-	HCTree * tree = new HCTree();
-	tree->build(list_freq);
+	tree.build(list_freq);
+	
+	ifs.open(argv[1], ios::binary);
 
 	byte letter = ifs.get();
 	BitOutputStream bitFile = BitOutputStream(outputFile);
 	//encodes each letter in the file
+
 	while(ifs.good()){
-		tree->encode(letter, bitFile);
+		tree.encode(letter, bitFile);
 		letter = ifs.get();
 		
 
