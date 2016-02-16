@@ -57,7 +57,7 @@ int main( int argc, const char *argv[])
 		++(asciiArray[letter1]);	
 		++decode;
 		//obtains the next letter
-
+        cout<<" This is the ascii array: " <<asciiArray[letter1]<< "letter1:    "<<letter1<<endl;
 	}
 	
 	//closes the file that is read
